@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { register as registerUser } from '@/services/authService'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import styles from './page.module.css'
 
 const schema = z.object({
   name: z.string().min(2, 'Nom requis'),
@@ -31,50 +32,71 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md p-8 rounded-xl shadow-md">
-        <h1 className="text-2xl font-bold mb-6">Créer un compte</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <div>
-            <input
-              {...register('name')}
-              type="text"
-              placeholder="Nom complet"
-              className="w-full border rounded-lg p-3"
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
-          </div>
-          <div>
-            <input
-              {...register('email')}
-              type="email"
-              placeholder="Email"
-              className="w-full border rounded-lg p-3"
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
-          </div>
-          <div>
-            <input
-              {...register('password')}
-              type="password"
-              placeholder="Mot de passe"
-              className="w-full border rounded-lg p-3"
-            />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
-          </div>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-orange-500 text-white rounded-lg p-3 font-semibold hover:bg-orange-600 disabled:opacity-50"
-          >
-            {isSubmitting ? 'Création...' : "S'inscrire"}
-          </button>
-        </form>
-        <p className="text-center mt-4 text-sm">
-          Déjà un compte ?{' '}
-          <a href="/login" className="text-orange-500 hover:underline">Se connecter</a>
+    <div className={styles.container}>
+      <div className={styles.leftColumn}>
+        <div className={styles.brand}>
+          <img src="/Logo.png" alt="Abricot" className={styles.logo} />
+        </div>
+
+        <div className={styles.hero}>
+          <h1 className={styles.title}>Inscription</h1>
+
+          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            <div className={styles.field}>
+              <label className={styles.label}>Nom</label>
+              <input
+                {...register('name')}
+                type="text"
+                className={styles.input}
+              />
+              {errors.name && <p className={styles.error}>{errors.name.message}</p>}
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Email</label>
+              <input
+                {...register('email')}
+                type="email"
+                className={styles.input}
+              />
+              {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Mot de passe</label>
+              <input
+                {...register('password')}
+                type="password"
+                className={styles.input}
+              />
+              {errors.password && <p className={styles.error}>{errors.password.message}</p>}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`${styles.button} ${isSubmitting ? styles.buttonDisabled : ''}`}
+            >
+              {isSubmitting ? 'Inscription...' : "S'inscrire"}
+            </button>
+          </form>
+        </div>
+
+        <p className={styles.bottomText}>
+          Déjà inscrit ?{' '}
+          <a href="/login" className={styles.actionLink}>
+            Se connecter
+          </a>
         </p>
       </div>
-    </main>
+
+      <div className={styles.photoColumn}>
+        <img
+          src="/login-photo.jpg"
+          alt=""
+          className={styles.photoImage}
+        />
+      </div>
+    </div>
   )
 }

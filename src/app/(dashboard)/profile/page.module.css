@@ -1,0 +1,16 @@
+﻿.wrapper {
+  padding: 2rem;
+}
+h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+}
+p {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+.backLink {
+  color: #111827;
+  text-decoration: none;
+  font-weight: 700;
+}

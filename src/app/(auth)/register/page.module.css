@@ -1,0 +1,107 @@
+﻿.container {
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+}
+.leftColumn {
+  width: 100%;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.brand {}
+.logo {
+  height: 2rem;
+}
+.hero {
+  max-width: 480px;
+  width: 100%;
+  margin-top: 2rem;
+}
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f97316;
+  margin-bottom: 2rem;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.label {
+  font-size: 0.875rem;
+  color: #334155;
+}
+.input {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+.input:focus {
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+.error {
+  color: #dc2626;
+  font-size: 0.75rem;
+}
+.button {
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.button:hover {
+  background: #374151;
+}
+.buttonDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.forgotLink {
+  color: #f97316;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+.bottomText {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+.actionLink {
+  color: #f97316;
+  font-weight: 600;
+  text-decoration: none;
+}
+.photoColumn {
+  display: none;
+  width: 50%;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+.photoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (min-width: 768px) {
+  .leftColumn {
+    width: 50%;
+  }
+  .photoColumn {
+    display: block;
+  }
+}

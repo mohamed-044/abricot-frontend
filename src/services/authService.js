@@ -7,13 +7,13 @@ const setToken = (token) => {
 
 export const login = async (email, password) => {
   const { data } = await api.post('/auth/login', { email, password })
-  setToken(data.token)
-  return data
+  setToken(data.data.token)
+  return data.data
 }
 
-export const register = async (email, password, name) => {
-  const { data } = await api.post('/auth/register', { email, password, name })
-  return data
+export const register = async (name, email, password) => {
+  const { data } = await api.post('/auth/register', { name, email, password })
+  return data.data
 }
 
 export const logout = () => {
@@ -22,6 +22,6 @@ export const logout = () => {
 }
 
 export const getMe = async () => {
-  const { data } = await api.get('/users/me')
-  return data
+  const { data } = await api.get('/auth/profile')
+  return data.data
 }
