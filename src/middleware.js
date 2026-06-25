@@ -1,15 +1,33 @@
 import { NextResponse } from 'next/server'
+import { jwtVerify } from 'jose'
 
-export function middleware(request) {
-  const token = request.cookies.get('token')
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') || 
+const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET
+  if (!secret) throw new Error('JWT_SECRET is not defined')
+  return new TextEncoder().encode(secret)
+}
+
+export async function middleware(request) {
+  const token = request.cookies.get('token')?.value
+  const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||
                      request.nextUrl.pathname.startsWith('/register')
 
-  if (!token && !isAuthPage) {
+  let isValidToken = false
+
+  if (token) {
+    try {
+      await jwtVerify(token, getJwtSecret())
+      isValidToken = true
+    } catch {
+      isValidToken = false
+    }
+  }
+
+  if (!isValidToken && !isAuthPage) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  if (token && isAuthPage) {
+  if (isValidToken && isAuthPage) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
