@@ -1,11 +1,11 @@
 ﻿.wrapper {
   padding: 2rem;
 }
-h1 {
+.title {
   margin: 0 0 1rem;
   font-size: 2rem;
 }
-p {
+.description {
   color: #64748b;
   margin-bottom: 1.5rem;
 }
