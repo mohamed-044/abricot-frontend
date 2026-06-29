@@ -7,7 +7,7 @@ const getJwtSecret = () => {
   return new TextEncoder().encode(secret)
 }
 
-export async function middleware(request) {
+export async function proxy(request) {
   const token = request.cookies.get('token')?.value
   const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||
                      request.nextUrl.pathname.startsWith('/register')
