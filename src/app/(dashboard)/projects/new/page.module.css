@@ -1,11 +1,11 @@
 ﻿.wrapper {
   padding: 2rem;
 }
-h1 {
+.pageTitle {
   margin: 0 0 1rem;
   font-size: 2rem;
 }
-p {
+.pageSubtitle {
   color: #64748b;
   margin-bottom: 1.5rem;
 }
