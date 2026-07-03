@@ -73,6 +73,18 @@
   border-radius: 9999px;
   font-weight: 500;
 }
+.statusTodo {
+  background: #ffe0e0;
+  color: #ef4444;
+}
+.statusInProgress {
+  background: #fff0d7;
+  color: #e08d00;
+}
+.statusDone {
+  background: #f1fff7;
+  color: #27ae60;
+}
 
 .cardDescription {
   font-size: 0.75rem;

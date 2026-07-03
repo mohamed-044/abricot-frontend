@@ -10,10 +10,11 @@ export function useMyTasks() {
     queryKey: ['projects'],
     queryFn: getProjects,
     enabled: !!user,
+    placeholderData: (prev) => prev,
   })
 
   const { data: myTasks = [], isLoading: loadingTasks } = useQuery({
-  queryKey: ['myTasks', projects.map((p) => p.id)],
+  queryKey: ['myTasks', ...projects.map((p) => p.id).sort()],
   queryFn: async () => {
     const allTasks = await Promise.all(
       projects.map((p) => getProjectTasks(p.id))
@@ -24,6 +25,7 @@ export function useMyTasks() {
     )
   },
   enabled: projects.length > 0 && !!user?.id,
+  placeholderData: (prev) => prev,
 })
 
   return {

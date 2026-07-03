@@ -11,7 +11,9 @@ export default function DashboardLayout({ children }) {
 
   const initials = user?.name
     ? user.name.split(' ').map((n) => n[0]).join('').toUpperCase()
-    : '?'
+    : user?.email
+      ? user.email[0].toUpperCase()
+      : '?'
 
   return (
     <div className={styles.container}>
@@ -41,13 +43,13 @@ export default function DashboardLayout({ children }) {
             </Link>
           </nav>
 
-          <button
-            onClick={logout}
-            className={styles.avatar}
-            title="Se déconnecter"
+          <Link
+            href="/profile"
+            className={`${styles.avatar} ${pathname !== '/profile' ? styles.avatarInactive : ''}`}
+            title="Mon compte"
           >
             {initials}
-          </button>
+          </Link>
         </div>
       </header>
 

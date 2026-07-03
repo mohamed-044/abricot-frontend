@@ -6,11 +6,11 @@ import { getProjectTasks, createTask, updateTask, deleteTask } from '@/services/
 import { useAuth } from '@/context/AuthContext'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import Link from 'next/link'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { ArrowLeft, Calendar, ChevronUp, ChevronDown, Search } from 'lucide-react'
+import { ArrowLeft, ChevronUp, ChevronDown, Search, Pencil, Trash2 } from 'lucide-react'
 import TaskFormModal from '@/components/tasks/TaskFormModal'
+import ProjectModal from '@/components/projects/ProjectModal'
 import { toast } from 'sonner'
 import styles from './page.module.css'
 
@@ -20,13 +20,14 @@ function getInitials(name) {
 }
 
 const STATUS_LABELS = {
-  TODO: { label: 'À faire', color: 'bg-orange-100 text-orange-600' },
-  IN_PROGRESS: { label: 'En cours', color: 'bg-yellow-100 text-yellow-600' },
-  DONE: { label: 'Terminée', color: 'bg-green-100 text-green-600' },
+  TODO: { label: 'À faire', color: styles.statusTodo },
+  IN_PROGRESS: { label: 'En cours', color: styles.statusInProgress },
+  DONE: { label: 'Terminée', color: styles.statusDone },
 }
 
 function TaskItem({ task, onEdit, onDelete }) {
   const [commentsOpen, setCommentsOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const status = STATUS_LABELS[task.status] ?? STATUS_LABELS.TODO
 
   return (
@@ -40,8 +41,37 @@ function TaskItem({ task, onEdit, onDelete }) {
           </span>
         </div>
         <div className={styles.taskActions}>
-          <button onClick={onEdit} className={styles.editBtn}>✏️ Modifier</button>
-          <button onClick={onDelete} className={styles.deleteBtn}>🗑️ Supprimer</button>
+          <button
+            type="button"
+            className={styles.menuBtn}
+            onClick={() => setMenuOpen((prev) => !prev)}
+          >
+            •••
+          </button>
+          {menuOpen && (
+            <div className={styles.taskMenu}>
+              <button
+                type="button"
+                className={styles.taskMenuItem}
+                onClick={() => {
+                  setMenuOpen(false)
+                  onEdit()
+                }}
+              >
+                <Pencil size={14} /> Modifier
+              </button>
+              <button
+                type="button"
+                className={styles.taskMenuItem}
+                onClick={() => {
+                  setMenuOpen(false)
+                  onDelete()
+                }}
+              >
+                <Trash2 size={14} /> Supprimer
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -50,8 +80,8 @@ function TaskItem({ task, onEdit, onDelete }) {
       {/* Échéance */}
       <div className={styles.dueDateWrapper}>
         <span className={styles.dueDateLabel}>Échéance :</span>
-        <Calendar size={12} />
-        <span>
+        <img src="/calendar-black.png" alt="" className={styles.calendarIcon} />
+        <span className={styles.dueDateText}>
           {task.dueDate
             ? format(new Date(task.dueDate), 'd MMM', { locale: fr })
             : 'Pas de date'}
@@ -63,12 +93,10 @@ function TaskItem({ task, onEdit, onDelete }) {
         <div className={styles.assigneesWrapper}>
           <span className={styles.assigneeLabel}>Assigné à :</span>
           {task.assignees.map((a) => (
-            <div key={a.id} className={styles.assigneeItem}>
-              <div className={styles.avatar}>
-                {getInitials(a.user?.name)}
+              <div key={a.id} className={styles.assigneeTag}>
+                <div className={styles.assigneeAvatar}>{getInitials(a.user?.name)}</div>
+                <span className={styles.assigneeTagName}>{a.user?.name}</span>
               </div>
-              <span className={styles.assigneeName}>{a.user?.name}</span>
-            </div>
           ))}
         </div>
       )}
@@ -102,6 +130,7 @@ export default function ProjectPage() {
   const { user } = useAuth()
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
+  const [viewMode, setViewMode] = useState('list')
 
   const { data: project, isLoading: loadingProject } = useQuery({
     queryKey: ['project', id],
@@ -135,6 +164,7 @@ export default function ProjectPage() {
   const queryClient = useQueryClient()
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [editTask, setEditTask] = useState(null)
+  const [editModalOpen, setEditModalOpen] = useState(false)
 
   const createMutation = useMutation({
     mutationFn: (data) => createTask(id, {
@@ -193,12 +223,13 @@ export default function ProjectPage() {
             <div className={styles.projectTitleRow}>
               <h1 className={styles.projectName}>{project.name}</h1>
               {isOwnerOrAdmin && (
-                <Link
-                  href={`/projects/${id}/settings`}
+                <button
+                  type="button"
+                  onClick={() => setEditModalOpen(true)}
                   className={styles.editLink}
                 >
                   Modifier
-                </Link>
+                </button>
               )}
             </div>
             <p className={styles.projectDescription}>{project.description}</p>
@@ -222,15 +253,15 @@ export default function ProjectPage() {
         <div className={styles.contributorsList}>
           {allMembers.map((member) => (
             <div key={member.id} className={styles.contributorItem}>
-              <div className={styles.memberAvatar}>
+              <div className={`${styles.memberAvatar} ${member.role === 'OWNER' ? styles.memberAvatarOwner : styles.memberAvatarOther}`}>
                 {getInitials(member.name)}
               </div>
               {member.role === 'OWNER' ? (
-                <span className={styles.ownerBadge}>
+                <span className={`${styles.badgeBase} ${styles.ownerBadge}`}>
                   Propriétaire
                 </span>
               ) : (
-                <span className={styles.memberName}>{member.name}</span>
+                <span className={`${styles.badgeBase} ${styles.memberName}`}>{member.name}</span>
               )}
             </div>
           ))}
@@ -245,8 +276,25 @@ export default function ProjectPage() {
             <h2 className={styles.tasksCardTitle}>Tâches</h2>
             <p className={styles.tasksCardSubtitle}>Par ordre de priorité</p>
           </div>
-          <div className={styles.taskFilters}>
-            {/* Filtre statut */}
+          <div className={styles.controlsGroup}>
+            <div className={styles.viewControls}>
+              <button
+                type="button"
+                className={`${styles.viewBtn} ${styles.viewBtnList} ${viewMode === 'list' ? styles.activeViewBtn : ''}`}
+                onClick={() => setViewMode('list')}
+              >
+                <img src="/check.png" alt="Liste" width="16" height="16" className={styles.viewBtnIcon} /> Liste
+              </button>
+              <button
+                type="button"
+                className={`${styles.viewBtn} ${styles.viewBtnCalendar} ${viewMode === 'calendar' ? styles.activeViewBtn : ''}`}
+                onClick={() => setViewMode('calendar')}
+              >
+                <img src="/calendar-orange.png" alt="Calendrier" width="16" height="16" className={styles.viewBtnIcon} /> Calendrier
+              </button>
+            </div>
+            <div className={styles.taskFilters}>
+              {/* Filtre statut */}
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
@@ -271,9 +319,14 @@ export default function ProjectPage() {
             </div>
           </div>
         </div>
+      </div>
 
         {/* Liste tâches */}
-        {loadingTasks ? (
+        {viewMode === 'calendar' ? (
+          <div className={styles.calendarPlaceholder}>
+            Vue calendrier à venir.
+          </div>
+        ) : loadingTasks ? (
           <p className={styles.statusText}>Chargement...</p>
         ) : filtered.length === 0 ? (
           <p className={styles.statusText}>Aucune tâche.</p>
@@ -304,6 +357,12 @@ export default function ProjectPage() {
         onSubmit={updateMutation.mutate}
         members={allMembersForForm}
         defaultValues={editTask}
+      />
+
+      <ProjectModal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        project={project}
       />
     </div>
   )

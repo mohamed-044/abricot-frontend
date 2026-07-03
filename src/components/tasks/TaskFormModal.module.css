@@ -1,0 +1,90 @@
+.form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.fieldLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.625rem;
+  font-size: 0.875rem;
+}
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fdba74;
+}
+
+.textarea {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.625rem;
+  font-size: 0.875rem;
+  resize: none;
+}
+.textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fdba74;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.helperText {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
+
+.statusRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.statusBtn {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.statusBtnInactive {
+  background: #ffffff;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+}
+
+.submitBtn {
+  width: 100%;
+  background: #e5e7eb;
+  color: #6b7280;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+.submitBtn:disabled {
+  opacity: 0.5;
+}
+.submitBtn:hover:not(:disabled) {
+  background: #111827;
+  color: #ffffff;
+}

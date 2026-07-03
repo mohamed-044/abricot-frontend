@@ -5,9 +5,9 @@ import { Folder, MessageSquare } from 'lucide-react'
 import styles from './KanbanBoard.module.css'
 
 const COLUMNS = [
-  { key: 'TODO', label: 'À faire', color: 'bg-orange-100 text-orange-600' },
-  { key: 'IN_PROGRESS', label: 'En cours', color: 'bg-yellow-100 text-yellow-600' },
-  { key: 'DONE', label: 'Terminée', color: 'bg-green-100 text-green-600' },
+  { key: 'TODO', label: 'À faire', color: styles.statusTodo },
+  { key: 'IN_PROGRESS', label: 'En cours', color: styles.statusInProgress },
+  { key: 'DONE', label: 'Terminée', color: styles.statusDone },
 ]
 
 function TaskCard({ task }) {

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { Folder, MessageSquare } from 'lucide-react'
 import styles from './page.module.css'
 import KanbanBoard from '@/components/tasks/KanbanBoard'
 const STATUS_LABELS = {
@@ -65,7 +66,7 @@ export default function DashboardPage() {
                   onChange={(e) => setSearch(e.target.value)}
                   className={styles.searchInput}
                 />
-                <span className={styles.searchIcon}>🔍</span>
+                <img src="/search.png" alt="" className={styles.searchIcon} />
               </div>
             </div>
             {isLoading ? (
@@ -87,16 +88,20 @@ export default function DashboardPage() {
                         </div>
                         <p className={styles.taskDescription}>{task.description}</p>
                         <div className={styles.taskMeta}>
-                          <span>📁 {task.project?.name}</span>
-                          <span>|</span>
-                          <span>
-                            📅{' '}
-                            {task.dueDate
-                              ? format(new Date(task.dueDate), 'd MMM', { locale: fr })
-                              : 'Pas de date'}
+                          <span className={styles.metaItem}>
+                            <Folder size={12} /> {task.project?.name}
                           </span>
                           <span>|</span>
-                          <span>💬 {task.comments?.length ?? 0}</span>
+                            <span className={styles.metaItem}>
+                              <img src="/calendar.png" alt="" className={styles.calendarIcon} />
+                              {task.dueDate
+                                ? format(new Date(task.dueDate), 'd MMM', { locale: fr })
+                                : 'Pas de date'}
+                            </span>
+                          <span>|</span>
+                          <span className={styles.metaItem}>
+                            <MessageSquare size={12} /> {task.comments?.length ?? 0}
+                          </span>
                         </div>
                       </div>
                       <Link href={`/projects/${task.projectId}`} className={styles.taskLink}>

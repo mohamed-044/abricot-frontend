@@ -23,5 +23,15 @@ export const logout = () => {
 
 export const getMe = async () => {
   const { data } = await api.get('/auth/profile')
+  return data.data.user
+}
+
+export const updateProfile = async ({ name, email }) => {
+  const { data } = await api.put('/auth/profile', { name, email })
+  return data.data.user
+}
+
+export const updatePassword = async ({ currentPassword, newPassword }) => {
+  const { data } = await api.put('/auth/password', { currentPassword, newPassword })
   return data.data
 }

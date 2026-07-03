@@ -4,8 +4,10 @@ import { useQuery } from '@tanstack/react-query'
 import { getProjects } from '@/services/projectService'
 import { getProjectTasks } from '@/services/taskService'
 import { useAuth } from '@/context/AuthContext'
+import { useState } from 'react'
 import Link from 'next/link'
 import styles from './page.module.css'
+import ProjectModal from '@/components/projects/ProjectModal'
 
 function getInitials(name) {
   return name
@@ -88,11 +90,13 @@ function ProjectCard({ project }) {
 }
 export default function ProjectsPage() {
   const { user } = useAuth()
+  const [modalOpen, setModalOpen] = useState(false)
 
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ['projects'],
     queryFn: getProjects,
     enabled: !!user,
+    placeholderData: (prev) => prev,
   })
 
   return (
@@ -103,12 +107,12 @@ export default function ProjectsPage() {
           <h1 className={styles.pageTitle}>Mes projets</h1>
           <p className={styles.pageSubtitle}>Gérez vos projets</p>
         </div>
-        <Link
-          href="/projects/new"
+        <button
+          onClick={() => setModalOpen(true)}
           className={styles.createButton}
         >
           + Créer un projet
-        </Link>
+        </button>
       </div>
 
       {/* Grille projets */}
@@ -123,6 +127,8 @@ export default function ProjectsPage() {
           ))}
         </div>
       )}
+
+      <ProjectModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   )
 }

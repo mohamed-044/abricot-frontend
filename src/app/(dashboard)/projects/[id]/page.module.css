@@ -30,16 +30,83 @@
   border-radius: 9999px;
   font-weight: 500;
 }
+.statusTodo {
+  background: #ffe0e0;
+  color: #ef4444;
+}
+.statusInProgress {
+  background: #fff0d7;
+  color: #e08d00;
+}
+.statusDone {
+  background: #f1fff7;
+  color: #27ae60;
+}
 
 .taskActions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
+}
+
+.menuBtn {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.menuBtn:hover {
+  background: #ffffff;
+}
+
+.taskMenu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  min-width: 10rem;
+  z-index: 10;
+}
+
+.taskMenuItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: #374151;
+  text-align: left;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.taskMenuItem:hover {
+  background: #f8fafc;
 }
 
 .editBtn {
   font-size: 0.75rem;
   color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 .editBtn:hover {
   color: #f97316;
@@ -64,7 +131,6 @@
   align-items: center;
   gap: 0.25rem;
   font-size: 0.75rem;
-  color: #9ca3af;
   margin-bottom: 0.75rem;
 }
 
@@ -72,11 +138,21 @@
   color: #6b7280;
 }
 
+.calendarIcon {
+  width: 12px;
+  height: 12px;
+}
+
+.dueDateText {
+  color: #1f1f1f;
+}
+
 .assigneesWrapper {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   margin-bottom: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .assigneeLabel {
@@ -84,10 +160,54 @@
   color: #6b7280;
 }
 
-.assigneeItem {
+.assigneeTag {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+}
+
+.assigneeAvatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: #e5e7eb;
+  color: #1f1f1f;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.assigneeTagName {
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #e5e7eb;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.editBtn {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
   gap: 0.25rem;
+}
+.editBtn:hover {
+  color: #f97316;
+}
+
+.deleteBtn {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.deleteBtn:hover {
+  color: #ef4444;
 }
 
 .avatar {
@@ -176,6 +296,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .projectName {
@@ -184,11 +305,17 @@
 }
 
 .editLink {
-  font-size: 0.875rem;
-  color: #f97316;
+  font-size: 14px;
+  font-weight: 400;
+  color: #D3590B;
+  text-decoration: underline solid #D3590B;
+  padding: 0;
+  border: none;
+  background: transparent;
 }
+
 .editLink:hover {
-  text-decoration: underline;
+  color: #b14709;
 }
 
 .projectDescription {
@@ -217,13 +344,14 @@
 }
 
 .contributorsCard {
-  background: #ffffff;
+  background: #f3f4f6;
   border: 1px solid #e5e7eb;
   border-radius: 1rem;
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
 }
@@ -232,6 +360,9 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: #374151;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .contributorsCount {
@@ -253,29 +384,43 @@
 }
 
 .memberAvatar {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 27px;
+  height: 27px;
   border-radius: 9999px;
-  background: #ffedd5;
-  color: #ea580c;
   font-size: 0.75rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+.memberAvatarOwner {
+  background: #ffe8d9;
+  color: #ea580c;
+}
+.memberAvatarOther {
+  background: #e5e7eb;
+  color: #6b7280;
 }
 
-.ownerBadge {
-  font-size: 0.75rem;
-  background: #ffedd5;
-  color: #ea580c;
-  padding: 0.125rem 0.5rem;
+.badgeBase {
+  min-width: 110px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 9999px;
+  font-size: 0.75rem;
   font-weight: 500;
 }
 
+.ownerBadge {
+  background: #ffe8d9;
+  color: #ea580c;
+}
+
 .memberName {
-  font-size: 0.75rem;
+  background: #e5e7eb;
   color: #6b7280;
 }
 
@@ -291,6 +436,52 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
+}
+
+.controlsGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.viewControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.viewBtn {
+  height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #bf5a1f;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.viewBtnList {
+  width: 95px;
+}
+
+.viewBtnCalendar {
+  width: 138px;
+}
+
+.activeViewBtn {
+  background: #fff1e6;
+  border-color: #f3c6a1;
+}
+
+.viewBtnIcon {
+  width: 16px;
+  height: 16px;
 }
 
 .tasksCardTitle {
@@ -310,9 +501,11 @@
 }
 
 .statusSelect {
+  width: 150px;
+  height: 60px;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0 1rem;
   font-size: 0.875rem;
 }
 .statusSelect:focus {
@@ -325,9 +518,11 @@
 }
 
 .searchInput {
+  width: 280px;
+  height: 60px;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
-  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  padding: 0 3rem 0 1rem;
   font-size: 0.875rem;
 }
 .searchInput:focus {
@@ -338,7 +533,10 @@
 .searchIcon {
   position: absolute;
   right: 0.75rem;
-  top: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
   color: #9ca3af;
 }
 

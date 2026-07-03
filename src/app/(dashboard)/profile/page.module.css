@@ -1,16 +1,100 @@
-﻿.wrapper {
+﻿.container {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
   padding: 2rem;
 }
-h1 {
-  margin: 0 0 1rem;
-  font-size: 2rem;
-}
-p {
-  color: #64748b;
-  margin-bottom: 1.5rem;
-}
-.backLink {
-  color: #111827;
-  text-decoration: none;
+
+.title {
+  font-size: 1.25rem;
   font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
+
+.subtitle {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin-top: 0.125rem;
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.625rem 0;
+  font-size: 0.875rem;
+  outline: none;
+  background: transparent;
+}
+
+.input:focus {
+  border-bottom-color: #fb923c;
+}
+
+.inputDisabled {
+  color: #9ca3af;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.button {
+  width: fit-content;
+  background-color: #111827;
+  color: #ffffff;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #374151;
+}
+
+.button:disabled {
+  opacity: 0.5;
+}
+
+.buttonMargin {
+  margin-top: 0.5rem;
+}
+
+.logoutButton {
+  width: fit-content;
+  background-color: transparent;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+}
+
+.logoutButton:hover {
+  background-color: #f3f4f6;
+}
+
+
