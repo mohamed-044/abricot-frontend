@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Abricot - Frontend
 
-## Getting Started
+Frontend de l’application Abricot, construit avec Next.js 16 et React 19.
 
-First, run the development server:
+Cette application permet de gérer des projets, des tâches et des collaborateurs via une interface connectée à une API backend.
+
+## Structure
+
+- `src/app/` : pages et routes du router App
+- `src/components/` : composants UI réutilisables
+- `src/context/` : contexte d’authentification et état global
+- `src/services/` : appels API vers le backend
+- `src/lib/` : configuration Axios et React Query
+
+## Prérequis
+
+- Node.js 20+
+- npm
+- Backend `dev-react-P10` en cours d’exécution sur `http://localhost:8000`
+
+## Installation
+
+```bash
+cd abricot-frontend
+npm install
+```
+
+## Lancer l’application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrir [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Principales fonctionnalités
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- authentification JWT
+- profil utilisateur avec modification du nom, de l’email et du mot de passe
+- gestion des projets et des collaborateurs
+- affichage des tâches au format liste et kanban
+- actions de création, mise à jour et suppression pour projets et tâches
+- notifications via `sonner`
 
-## Learn More
+## Scripts disponibles
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` : lance le frontend en développement
+- `npm run build` : construit l’application pour la production
+- `npm run start` : démarre l’application en production
+- `npm run lint` : lance ESLint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- La configuration Next.js se trouve dans `next.config.mjs`
+- Les appels API sont centralisés dans `src/lib/api.js`
+- Le backend doit être démarré séparément dans `dev-react-P10`
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Le frontend utilise React Query pour la gestion des requêtes et du cache
+- La validation des formulaires est gérée avec `react-hook-form` et `zod`
+- Les routes client sont définies dans le dossier `src/app`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Backend associé
+
+Le frontend doit communiquer avec le backend `dev-react-P10` :
+
+- authentification : `/auth/login`, `/auth/register`, `/auth/profile`, `/auth/password`
+- projets : `/projects`
+- tâches : `/tasks`
+- commentaires : `/comments`
+
+---
+
+Ce README décrit le frontend seulement. Pour démarrer l’ensemble du projet, lancez d’abord le backend `dev-react-P10` puis le frontend `abricot-frontend`.
+
+## Exemple de fichier `.env`
+
+Créez un fichier `.env.local` à la racine de `abricot-frontend/` adaptez les valeurs si nécessaire :
+
+```env
+# JWT_SECRET="jwtsecret"
+```
+
+Redémarrez le serveur frontend après avoir modifié les variables d'environnement.
